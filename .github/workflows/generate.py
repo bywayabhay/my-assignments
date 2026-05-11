@@ -5,6 +5,7 @@ folders = sorted([
     if os.path.isdir(f) and re.match(r'^assignment-\d+$', f)
 ], key=lambda x: int(x.split('-')[1]))
 
+# Generate index.html
 cards = ""
 for f in folders:
     num = f.split('-')[1]
@@ -31,4 +32,21 @@ html = f"""<!DOCTYPE html>
 with open("index.html", "w") as f:
     f.write(html)
 
-print(f"Generated index.html with {len(folders)} assignments")
+# Generate README.md
+rows = ""
+for f in folders:
+    num = f.split('-')[1]
+    url = f"https://bywayabhay.github.io/my-assignments/{f}/"
+    rows += f"| {num} | Assignment {num} | [View Live →]({url}) |\n"
+
+readme = f"""# 📚 My Assignments
+
+| # | Assignment | Live URL |
+|---|------------|----------|
+{rows}
+"""
+
+with open("README.md", "w") as f:
+    f.write(readme)
+
+print(f"Generated index.html and README.md with {len(folders)} assignments")
